@@ -53,7 +53,7 @@ public class AttendeesController : ControllerBase
     [HttpPost]
     public ActionResult<Attendee> PostTest(Attendee attendee)
     {
-        var dbExercise = _context.Speakers!.Find(attendee.Id);
+        var dbExercise = _context.Attendees!.Find(attendee.Id);
         if (dbExercise == null)
         {
             _context.Add(attendee);

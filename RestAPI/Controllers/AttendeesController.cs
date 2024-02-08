@@ -6,18 +6,18 @@ namespace ITB2203Application.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class SpeakersController : ControllerBase
+public class AttendeesController : ControllerBase
 {
     private readonly DataContext _context;
 
-    public SpeakersController(DataContext context)
+    public AttendeesController(DataContext context)
     {
         _context = context;
     }
     [HttpGet]
-    public ActionResult<IEnumerable<Speaker>> GetTests(string? name = null)
+    public ActionResult<IEnumerable<Attendee>> GetTests(string? name = null)
     {
-        var query = _context.Speakers!.AsQueryable();
+        var query = _context.Attendees!.AsQueryable();
 
         if (name != null)
             query = query.Where(x => x.Name != null && x.Name.ToUpper().Contains(name.ToUpper()));
@@ -27,39 +27,39 @@ public class SpeakersController : ControllerBase
     [HttpGet("{id}")]
     public ActionResult<TextReader> GetTest(int id)
     {
-        var speaker = _context.Speakers!.Find(id);
+        var attendee = _context.Attendees!.Find(id);
 
-        if (speaker == null)
+        if (attendee == null)
         {
             return NotFound();
         }
 
-        return Ok(speaker);
+        return Ok(attendee);
     }
     [HttpPut("{id}")]
-    public IActionResult PutTest(int id, Speaker speaker)
+    public IActionResult PutTest(int id, Attendee attendee)
     {
-        var dbSpeaker = _context.Speakers!.AsNoTracking().FirstOrDefault(x => x.Id == speaker.Id);
-        if (id != speaker.Id || dbSpeaker == null)
+        var dbAttendee = _context.Attendees!.AsNoTracking().FirstOrDefault(x => x.Id == attendee.Id);
+        if (id != attendee.Id || dbAttendee == null)
         {
             return NotFound();
         }
 
-        _context.Update(speaker);
+        _context.Update(attendee);
         _context.SaveChanges();
 
         return NoContent();
     }
     [HttpPost]
-    public ActionResult<Speaker> PostTest(Speaker speaker)
+    public ActionResult<Attendee> PostTest(Attendee attendee)
     {
-        var dbExercise = _context.Speakers!.Find(speaker.Id);
+        var dbExercise = _context.Speakers!.Find(attendee.Id);
         if (dbExercise == null)
         {
-            _context.Add(speaker);
+            _context.Add(attendee);
             _context.SaveChanges();
 
-            return CreatedAtAction(nameof(GetTest), new { Id = speaker.Id }, speaker);
+            return CreatedAtAction(nameof(GetTest), new { Id = attendee.Id }, attendee);
         }
         else
         {
@@ -70,13 +70,13 @@ public class SpeakersController : ControllerBase
     [HttpDelete("{id}")]
     public IActionResult DeleteTest(int id)
     {
-        var speaker = _context.Speakers!.Find(id);
-        if (speaker == null)
+        var attendee = _context.Attendees!.Find(id);
+        if (attendee == null)
         {
             return NotFound();
         }
 
-        _context.Remove(speaker);
+        _context.Remove(attendee);
         _context.SaveChanges();
 
         return NoContent();

@@ -53,12 +53,16 @@ public class AttendeesController : ControllerBase
     [HttpPost]
     public ActionResult<Attendee> PostTest(Attendee attendee)
     {
-        var dbExercise = _context.Attendees!.Find(attendee.Id);
+        var dbAttendee = _context.Attendees!.Find(attendee.Id);
         if (!attendee.Email!.Contains("@"))
         {
             return BadRequest();
         }
-        if (dbExercise == null)
+        //if 
+        //{
+        //    return BadRequest();
+        //}
+        if (dbAttendee == null)
         {
             _context.Add(attendee);
             _context.SaveChanges();

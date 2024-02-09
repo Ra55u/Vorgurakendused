@@ -53,8 +53,8 @@ public class EventsController : ControllerBase
     [HttpPost]
     public ActionResult<Event> PostTest(Event @event)
     {
-        var dbExercise = _context.Events!.Find(@event.Id);
-        if (dbExercise == null)
+        var dbEvent = _context.Events!.Find(@event.Id);
+        if (dbEvent == null)
         {
             _context.Add(@event);
             _context.SaveChanges();

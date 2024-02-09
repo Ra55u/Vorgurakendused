@@ -1,6 +1,7 @@
 ﻿using ITB2203Application.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace ITB2203Application.Controllers;
 
@@ -53,15 +54,19 @@ public class SpeakersController : ControllerBase
     [HttpPost]
     public ActionResult<Speaker> PostTest(Speaker speaker)
     {
-        var dbExercise = _context.Speakers!.Find(speaker.Id);
-        if (dbExercise == null)
+        var dbSpeaker = _context.Speakers!.Find(speaker.Id);
+        if (!speaker.Email!.Contains("@"))
+        {
+            return BadRequest();
+        }
+        if (dbSpeaker == null)
         {
             _context.Add(speaker);
             _context.SaveChanges();
 
             return CreatedAtAction(nameof(GetTest), new { Id = speaker.Id }, speaker);
         }
-        else
+        else 
         {
             return Conflict();
         }

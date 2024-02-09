@@ -54,6 +54,10 @@ public class AttendeesController : ControllerBase
     public ActionResult<Attendee> PostTest(Attendee attendee)
     {
         var dbExercise = _context.Attendees!.Find(attendee.Id);
+        if (!attendee.Email!.Contains("@"))
+        {
+            return BadRequest();
+        }
         if (dbExercise == null)
         {
             _context.Add(attendee);
